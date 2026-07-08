@@ -2,19 +2,16 @@
 #set -x
 source /functions.sh
 
-if [[ "$(read_var CREATED $VAR_STORE)" != "yes" ]]; then
-  write_var "CREATED" "yes"
-  #adguardvpn-cli config set-no-routes off
-  adguardvpn-cli config set-system-dns off
-  if [[ -v ADGUARD_SEND_REPORTS ]]; then
-    adguardvpn-cli config send-reports "$ADGUARD_SEND_REPORTS"
-  else
-    adguardvpn-cli config send-reports off
-  fi
+if [[ -v ADGUARD_SEND_REPORTS ]]; then
+  adguardvpn-cli config set-telemetry "$ADGUARD_SEND_REPORTS"
+else
+  adguardvpn-cli config set-telemetry
+fi
 
-  if [[ -v ADGUARD_USERNAME && -v ADGUARD_PASSWORD ]]; then
-    adguardvpn-cli login -u "$ADGUARD_USERNAME" -p "$ADGUARD_PASSWORD"
-  fi
+adguardvpn-cli status
+
+if [[ $(adguardvpn-cli status | head -n 1) == "You are not logged in" ]]; then
+  adguardvpn-cli login
 fi
 
 if [[ $(adguardvpn-cli status | head -n 1) != "VPN is disconnected" ]]; then

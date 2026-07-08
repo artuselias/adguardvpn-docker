@@ -7,15 +7,17 @@ services:
             - 51413:51413
         container_name: adguard-vpn
         privileged: true
+        security_opt:
+              - apparmor:unconfined
         env_file:
             - .env
         volumes:
-            - transmission_config:/config
+            - ./config:/config
             - /var/run/docker.sock:/var/run/docker.sock
             - type: bind
               source: '${DOWNLOADS_PATH}'
               target: '/downloads'
         image: adguard-vpn
         restart: unless-stopped
-volumes:
-    transmission_config:
+#volumes:
+#    transmission_config:
