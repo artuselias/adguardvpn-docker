@@ -16,8 +16,6 @@ https://github.com/artuselias/adguardvpn-docker/archive/refs/heads/main.zip.
 ### 3. Adjust environment variables
 The environment variables for this docker container are stored in a file called `.env`.
 
-`ADGUARD_USERNAME` and `ADGUARD_PASSWORD` need to be specified in order to enable automatic login.
-
 Be sure to set `DOWNLOADS_PATH` to a path in your file system where the downloaded torrents should be stored.
 
 You can copy and adjust the file `.env.example`:
@@ -35,7 +33,13 @@ This downloads data from LinuxServers.io and Github.
 ### 5. Bring the Docker container up
 `sudo docker compose up -d`
 
-If `ADGUARD_USERNAME` and `ADGUARD_PASSWORD` are specified, this tries to automatically login to your account on `adguard-vpn.com`.
+
+### 6. Log-in
+Print container logs:
+`sudo docker compose logs`
+At the end, there should be a link to log-in:
+`You need to authorize in your browser. The following link will be available for 1799 seconds:`
+Click on it and log in.
 
 It is then tried to automatically connect your AdGuard VPN to the location set in `ADGUARD_LOCATION`. If `ADGUARD_LOCATION` is not set, it will attempt to connect to the fastest available location.
 
